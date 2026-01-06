@@ -33,3 +33,7 @@ class Vehicle:
             self.__rental_price = price
         else:
             raise ValueError("Rental price must be positive")
+
+    def display(self):
+        print(f"vehicle_id : {self.vehicle_id} model: {self.model} battery_percentage : {self.battery_percentage} maintenance_status : {self.maintenance_status} rental_price : {self.rental_price}")
+
