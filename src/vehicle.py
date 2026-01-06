@@ -1,0 +1,39 @@
+class Vehicle:
+    def __init__(self, vehicle_id, model, battery_percentage, rental_price):
+        self.vehicle_id = vehicle_id
+        self.model = model
+        self.__battery_percentage = battery_percentage
+        self.__maintenance_status = "Available"
+        self.__rental_price = rental_price
+
+    def get_battery_percentage(self):
+        return self.__battery_percentage
+
+    def get_maintenance_status(self):
+        return self.__maintenance_status
+
+    def get_rental_price(self):
+        return self.__rental_price
+    
+    def set_battery_percentage(self, value):
+        if 0 <= value <= 100:
+            self.__battery_percentage = value
+        else:
+            raise ValueError("Battery percentage must be between 0 and 100")
+
+    def set_maintenance_status(self, status):
+        allowed = ["Available", "On Trip", "Under Maintenance"]
+        if status in allowed:
+            self.__maintenance_status = status
+        else:
+            raise ValueError("Invalid maintenance status")
+
+    def set_rental_price(self, price):
+        if price > 0:
+            self.__rental_price = price
+        else:
+            raise ValueError("Rental price must be positive")
+
+    def display(self):
+        print(f"vehicle_id : {self.vehicle_id} model: {self.model} battery_percentage : {self.battery_percentage} maintenance_status : {self.maintenance_status} rental_price : {self.rental_price}")
+
