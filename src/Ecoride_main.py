@@ -27,6 +27,11 @@ class EcoRideMain:
         choice = input("Choose vehicle type: ")
 
         vehicle_id = int(input("Enter vehicle ID: "))
+        
+        if any(v.vehicle_id == vehicle_id for v in self.hubs[hub_name]):
+            print(f"Vehicle ID {vehicle_id} already exists in {hub_name}")
+            return
+
         model = input("Enter model name: ")
         battery = int(input("Enter battery percentage: "))
 
