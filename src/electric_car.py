@@ -4,8 +4,8 @@ class ElectricCar(Vehicle):
         super().__init__(vehicle_id, model, battery_percentage)
         self.seating_capacity = seating_capacity
 
-    """def calculate_trip_cost(self, distance):
-        return 5 + (0.5 * distance)"""
+    def calculate_trip_cost(self, distance):
+        return 5 + (0.5 * distance)
     
     def display(self):
         super().display()
