@@ -1,0 +1,12 @@
+from vehicle import Vehicle
+class ElectricScooter(Vehicle):
+    def __init__(self, vehicle_id, model, battery_percentage, max_speed_limit):
+        super().__init__(vehicle_id, model, battery_percentage)
+        self.max_speed_limit = max_speed_limit
+
+    """def calculate_trip_cost(self, distance):
+        return 1 + (0.15 * distance)"""
+    
+    def display(self):
+        super().display()
+        print(f"Max Speed: {self.max_speed_limit} km/h")
