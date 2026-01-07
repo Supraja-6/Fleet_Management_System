@@ -4,8 +4,8 @@ class ElectricScooter(Vehicle):
         super().__init__(vehicle_id, model, battery_percentage)
         self.max_speed_limit = max_speed_limit
 
-    """def calculate_trip_cost(self, distance):
-        return 1 + (0.15 * distance)"""
+    def calculate_trip_cost(self, distance):
+        return 1 + (0.15 * distance)
     
     def display(self):
         super().display()

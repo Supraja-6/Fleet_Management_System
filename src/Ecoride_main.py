@@ -10,8 +10,9 @@ class EcoRideMain:
         scooter = ElectricScooter(102, "Honda", 80, 60)
 
         car.display()
-        print("-" * 30)
+        print("Trip Cost: ", car.calculate_trip_cost)
         scooter.display()
+        print("Trip Cost: ", scooter.calculate_trip_cost)
 
 if __name__ == "__main__":
     ecorideobj = EcoRideMain()
