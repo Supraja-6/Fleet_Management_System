@@ -1,11 +1,19 @@
-from vehicle import Vehicle
+from electric_car import ElectricCar
+from electric_scooter import ElectricScooter
 
 class EcoRideMain:
     def display(self):
         print("Welcome to Eco-Ride Urban Mobility System")
+
     def main(self):
-        v1 = Vehicle(101, "Tesla", 90, 1000)
-        v1.display()
+        car = ElectricCar(101, "Tesla", 90, 5)
+        scooter = ElectricScooter(102, "Honda", 80, 60)
+
+        car.display()
+        print("-" * 30)
+        scooter.display()
+
 if __name__ == "__main__":
-    ecoridemain = EcoRideMain()
-    ecoridemain.display()
+    ecorideobj = EcoRideMain()
+    ecorideobj.display()
+    ecorideobj.main()
