@@ -158,6 +158,24 @@ class EcoRideMain:
         print(f"Available              : {available}")
         print(f"On Trip                : {on_trip}")
         print(f"Under Maintenance      : {under_maintenance}")
+
+    def sort_vehicles_by_model(self):
+        hub_name = input("Enter hub name to sort vehicles: ").strip().title()
+        if hub_name not in self.hubs:
+            print("Hub not found")
+            return
+
+        if not self.hubs[hub_name]:
+            print(f"No vehicles in hub '{hub_name}'")
+            return
+
+        self.hubs[hub_name].sort(key=lambda v: v.model.lower())
+
+        print(f"\nVehicles in hub '{hub_name}' sorted alphabetically by Model:")
+        for v in self.hubs[hub_name]:
+            print(v) 
+            print("-" * 30)
+
     
     def main(self):
         while True:
@@ -169,7 +187,9 @@ class EcoRideMain:
             print("5. Search Vehicles with Battery > 80%")
             print("6. Categorized View (Cars/Scooters)")
             print("7. Fleet Analytics (Status)")
-            print("8. Exit")
+            print("8. Sort Vehicles Alphabetically by Model")
+            print("9. Exit")
+
 
             choice = input("Enter choice: ")
 
@@ -188,6 +208,8 @@ class EcoRideMain:
             elif choice == "7":
                 self.fleet_analytics()
             elif choice == "8":
+                self.sort_vehicles_by_model()
+            elif choice == "9":
                 print("Exiting system")
                 break
             else:
