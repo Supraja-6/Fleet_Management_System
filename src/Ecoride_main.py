@@ -21,10 +21,19 @@ class EcoRideMain:
         if hub_name not in self.hubs:
             print("Hub does not exist")
             return
+        
+        while True:
+            v_type = input("Enter vehicle type (Car/Scooter): ").strip().lower()
+            if v_type in ["car", "scooter"]:
+                break
+            print("Invalid input! Please enter 'Car' or 'Scooter'")
 
-        v_type = input("Enter vehicle type (Car/Scooter): ").strip().lower()
-        vehicle_id = int(input("Enter vehicle ID: "))
-
+        try:
+            vehicle_id = int(input("Enter vehicle ID: "))
+        except ValueError:
+            print("Vehicle ID must be number")
+            return
+        
         if any(v.vehicle_id == vehicle_id for v in self.hubs[hub_name]):
             print(f"Vehicle ID {vehicle_id} already exists in {hub_name}")
             return
@@ -54,7 +63,7 @@ class EcoRideMain:
         print("Vehicle added successfully")
 
     def display_hub_vehicles(self):
-        hub_name = input("Enter hub name: ")
+        hub_name = input("Enter hub name: ").strip().title()
         if hub_name not in self.hubs:
             print("Hub not found")
             return
@@ -71,12 +80,12 @@ class EcoRideMain:
                     break
                 except ValueError:
                     print("enter a valid number")
-                    print("Trip Cost:", v.calculate_trip_cost(value))
-                    print("-" * 30)
+            print("Trip Cost:", v.calculate_trip_cost(value))
+            print("-" * 30)
 
 
     def search_by_hub(self):
-        hub_name = input("Enter hub name to search vehicles: ")
+        hub_name = input("Enter hub name to search vehicles: ").strip().title()
         if hub_name not in self.hubs:
             print("Hub not found")
             return
@@ -127,6 +136,29 @@ class EcoRideMain:
         else:
             print("No Electric Scooters available")
 
+    def fleet_analytics(self):
+        print("\n--- Fleet Analytics (Status Summary)---")
+        available = 0
+        on_trip = 0
+        under_maintenance = 0
+        for vehicles in self.hubs.values():
+            for v in vehicles:
+                status = v.get_maintenance_status()
+                if status == "Available":
+                    available += 1
+                elif status == "On Trip":
+                    on_trip += 1
+                elif status == "Under Maintenance":
+                    under_maintenance += 1
+        total = available + on_trip + under_maintenance
+        if total == 0:
+            print("No vehicles available")
+            return
+        print(f"Total Vehicles         : {total}")
+        print(f"Available              : {available}")
+        print(f"On Trip                : {on_trip}")
+        print(f"Under Maintenance      : {under_maintenance}")
+    
     def main(self):
         while True:
             print("\n--- MENU ---")
@@ -136,7 +168,8 @@ class EcoRideMain:
             print("4. Search Vehicles by Hub")
             print("5. Search Vehicles with Battery > 80%")
             print("6. Categorized View (Cars/Scooters)")
-            print("7. Exit")
+            print("7. Fleet Analytics (Status)")
+            print("8. Exit")
 
             choice = input("Enter choice: ")
 
@@ -153,6 +186,8 @@ class EcoRideMain:
             elif choice == "6":
                 self.categorized_view()
             elif choice == "7":
+                self.fleet_analytics()
+            elif choice == "8":
                 print("Exiting system")
                 break
             else:
