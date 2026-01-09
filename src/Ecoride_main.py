@@ -175,6 +175,45 @@ class EcoRideMain:
         for v in self.hubs[hub_name]:
             print(v) 
             print("-" * 30)
+    
+    def sort_vehicles(self):
+        hub_name = input("Enter hub name to sort vehicles: ").strip().title()
+        if hub_name not in self.hubs:
+            print("Hub not found")
+            return
+        if not self.hubs[hub_name]:
+            print(f"No vehicles in hub '{hub_name}'")
+            return
+        
+        print("\nSort Vehicles By: ")
+        print("1. Battery Level (High to Low)")
+        print("2. Trip Cost (Fare Price) for a specific distance")
+
+        choice = input("Enter choice (1/2): ").strip()
+        if choice == "1":
+            sorted_vehicles = sorted(self.hubs[hub_name], key=lambda v: v.get_battery_percentage(), reverse=True)
+            print(f"\nVehicles in hub '{hub_name}' sorted by battery level (High -> Low): ")
+        elif choice == "2":
+            while True:
+                try:
+                    distance = float(input("Enter trip distance for fare calculation: "))
+                    if distance < 0:
+                        print("Distance can't be negative")
+                        continue
+                    break
+                except ValueError:
+                    print("Enter a valid number: ")
+
+            sorted_vehicles = sorted(self.hubs[hub_name], key=lambda v: v.calculate_trip_cost(distance), reverse=True)
+            print(f"\nVehicles in hub '{hub_name}' sorted by Trip Cost (High → Low):")
+        else:
+            print("Invalid Choice")
+            return
+        
+        for v in sorted_vehicles:
+            print(v)
+            print("-" * 30)
+
 
     
     def main(self):
@@ -188,7 +227,8 @@ class EcoRideMain:
             print("6. Categorized View (Cars/Scooters)")
             print("7. Fleet Analytics (Status)")
             print("8. Sort Vehicles Alphabetically by Model")
-            print("9. Exit")
+            print("9. Sort Vehicles by (Battery/Fare)")
+            print("10. Exit")
 
 
             choice = input("Enter choice: ")
@@ -210,6 +250,8 @@ class EcoRideMain:
             elif choice == "8":
                 self.sort_vehicles_by_model()
             elif choice == "9":
+                self.sort_vehicles()
+            elif choice == "10":
                 print("Exiting system")
                 break
             else:
