@@ -9,4 +9,5 @@ class ElectricScooter(Vehicle):
     
     def display(self):
         super().display()
+        print(f"Type: Electric Scooter")
         print(f"Max Speed: {self.max_speed_limit} km/h")

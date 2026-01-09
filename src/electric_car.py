@@ -9,4 +9,5 @@ class ElectricCar(Vehicle):
     
     def display(self):
         super().display()
+        print(f"Type: Electric Car")
         print(f"Seating Capacity : {self.seating_capacity}")

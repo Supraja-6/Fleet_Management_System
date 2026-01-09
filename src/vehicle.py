@@ -3,7 +3,7 @@ class Vehicle(ABC):
     def __init__(self, vehicle_id, model, battery_percentage):
         self.vehicle_id = vehicle_id
         self.model = model
-        self.__battery_percentage = battery_percentage
+        self.set_battery_percentage(battery_percentage)
         self.__maintenance_status = "Available"
 
     def get_battery_percentage(self):
@@ -13,7 +13,7 @@ class Vehicle(ABC):
         return self.__maintenance_status
     
     def set_battery_percentage(self, value):
-        if 0 <= value <= 100:
+        if 0 <= value<= 100:
             self.__battery_percentage = value
         else:
             raise ValueError("Battery percentage must be between 0 and 100")
@@ -30,9 +30,10 @@ class Vehicle(ABC):
         pass
 
     def __eq__(self, other):
-        if isinstance(other, Vehicle):
-            return self.vehicle_id == other.vehicle_id
-        return False
+        return isinstance(other, Vehicle) and self.vehicle_id == other.vehicle_id
+    
+    def __hash__(self):
+        return hash(self.vehicle_id)
     
     def display(self):
         print(f"Vehicle ID: {self.vehicle_id}")

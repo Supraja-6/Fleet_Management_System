@@ -9,7 +9,7 @@ class EcoRideMain:
         print("Welcome to Eco-Ride Urban Mobility System")
 
     def add_hub(self):
-        hub_name = input("Enter hub name: ")
+        hub_name = input("Enter hub name: ").strip().title()
         if hub_name not in self.hubs:
             self.hubs[hub_name] = []
             print(f"Hub '{hub_name}' added successfully")
@@ -17,33 +17,38 @@ class EcoRideMain:
             print("Hub already exists")
 
     def add_vehicle_to_hub(self):
-        hub_name = input("Enter hub name: ")
+        hub_name = input("Enter hub name: ").strip().title()
         if hub_name not in self.hubs:
             print("Hub does not exist")
             return
 
-        print("1. Electric Car")
-        print("2. Electric Scooter")
-        choice = input("Choose vehicle type: ")
-
+        v_type = input("Enter vehicle type (Car/Scooter): ").strip().lower()
         vehicle_id = int(input("Enter vehicle ID: "))
 
         if any(v.vehicle_id == vehicle_id for v in self.hubs[hub_name]):
             print(f"Vehicle ID {vehicle_id} already exists in {hub_name}")
             return
 
-        model = input("Enter model name: ")
-        battery = int(input("Enter battery percentage: "))
+        model = input("Enter model name: ").strip()
+        while True:
+            try:
+                battery = int(input("Enter battery percentage: "))
+                if 0 <= battery <= 100:
+                    break
+                print("Battery must be 0-100")
+            except ValueError:
+                print("Enter a valid number")
 
-        if choice == "1":
+        if v_type == "car":
             seats = int(input("Enter seating capacity: "))
             vehicle = ElectricCar(vehicle_id, model, battery, seats)
-        elif choice == "2":
-            speed = int(input("Enter max speed: "))
+        elif v_type == "scooter":
+            speed = int(input("Enter max speed limit: "))
             vehicle = ElectricScooter(vehicle_id, model, battery, speed)
         else:
-            print("Invalid choice")
+            print("Incalid vehicle type")
             return
+        
 
         self.hubs[hub_name].append(vehicle)
         print("Vehicle added successfully")
@@ -54,12 +59,21 @@ class EcoRideMain:
             print("Hub not found")
             return
 
-        distance = float(input("Enter trip distance: "))
         print(f"\nVehicles in {hub_name} Hub")
         for v in self.hubs[hub_name]:
             v.display()
-            print("Trip Cost:", v.calculate_trip_cost(distance))
-            print("-" * 30)
+            while True:
+                try:
+                    value = float(input("Enter trip distance/minutes: "))
+                    if value < 0:
+                        print("Value cannot be negative")
+                        continue
+                    break
+                except ValueError:
+                    print("enter a valid number")
+                    print("Trip Cost:", v.calculate_trip_cost(value))
+                    print("-" * 30)
+
 
     def search_by_hub(self):
         hub_name = input("Enter hub name to search vehicles: ")
@@ -77,7 +91,7 @@ class EcoRideMain:
         found = False
         print("\nVehicles with battery > 80%:")
         for hub_name, vehicles in self.hubs.items():
-            high_battery_vehicles = list(filter(lambda v: v.get_battery_percentage() > threshold, vehicles))
+            high_battery_vehicles = [v for v in vehicles if v.get_battery_percentage() > threshold]
             if high_battery_vehicles:
                 found = True
                 print(f"\nHub: {hub_name}")
@@ -87,6 +101,32 @@ class EcoRideMain:
         if not found:
             print("No vehicles found with battery > 80%")
 
+    def categorized_view(self):
+        print("\n--- Categorized Vehicle View ---")
+        cars = []
+        scooters = []
+        for vehicles in self.hubs.values():
+            for v in vehicles:
+                if isinstance(v, ElectricCar):
+                    cars.append(v)
+                elif isinstance(v, ElectricScooter):
+                    scooters.append(v)
+        print("\nElectric Cars: ")
+        if cars:
+            for car in cars:
+                car.display()
+                print("-" * 30)
+        else:
+            print("No Electric Cars available")
+
+        print("\nElectric Scooters: ")
+        if scooters:
+            for scooter in scooters:
+                scooter.display()
+                print("-" * 30)
+        else:
+            print("No Electric Scooters available")
+
     def main(self):
         while True:
             print("\n--- MENU ---")
@@ -95,7 +135,8 @@ class EcoRideMain:
             print("3. Display Hub Vehicles")
             print("4. Search Vehicles by Hub")
             print("5. Search Vehicles with Battery > 80%")
-            print("6. Exit")
+            print("6. Categorized View (Cars/Scooters)")
+            print("7. Exit")
 
             choice = input("Enter choice: ")
 
@@ -110,6 +151,8 @@ class EcoRideMain:
             elif choice == "5":
                 self.search_high_battery()
             elif choice == "6":
+                self.categorized_view()
+            elif choice == "7":
                 print("Exiting system")
                 break
             else:
