@@ -32,8 +32,8 @@ class Vehicle(ABC):
     def __eq__(self, other):
         return isinstance(other, Vehicle) and self.vehicle_id == other.vehicle_id
     
-    def __hash__(self):
-        return hash(self.vehicle_id)
+#    def __hash__(self):
+ #       return hash(self.vehicle_id)
     
     def display(self):
         print(f"Vehicle ID: {self.vehicle_id}")
