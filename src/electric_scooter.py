@@ -7,6 +7,9 @@ class ElectricScooter(Vehicle):
     def calculate_trip_cost(self, distance):
         return 1 + (0.15 * distance)
     
+    def __str__(self):
+        return super().__str__() + f", Type: Electric Scooter, Max Speed: {self.max_speed_limit} km/h"
+
     def display(self):
         super().display()
         print(f"Type: Electric Scooter")
