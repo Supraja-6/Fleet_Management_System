@@ -1,5 +1,8 @@
 from electric_car import ElectricCar
 from electric_scooter import ElectricScooter
+import csv
+import json
+import os
 
 class EcoRideMain:
     def __init__(self):
@@ -214,6 +217,108 @@ class EcoRideMain:
             print(v)
             print("-" * 30)
 
+    def save_to_csv(self):
+        with open("fleet_data.csv", "w", newline="") as file:
+            writer = csv.writer(file)
+            writer.writerow([
+                "hub", "vehicle_type", "vehicle_id", "model",
+                "battery", "status", "seats", "max_speed"
+            ])
+
+            for hub, vehicles in self.hubs.items():
+                for v in vehicles:
+                    if isinstance(v, ElectricCar):
+                        writer.writerow([
+                            hub, "Car", v.vehicle_id, v.model,
+                            v.get_battery_percentage(),
+                            v.get_maintenance_status(),
+                            v.seating_capacity, ""
+                        ])
+                    elif isinstance(v, ElectricScooter):
+                        writer.writerow([
+                            hub, "Scooter", v.vehicle_id, v.model,
+                            v.get_battery_percentage(),
+                            v.get_maintenance_status(),
+                            "", v.max_speed_limit
+                        ])
+
+    def load_from_csv(self):
+        if not os.path.exists("fleet_data.csv"):
+            return
+
+        with open("fleet_data.csv", "r") as file:
+            reader = csv.DictReader(file)
+
+            for row in reader:
+                hub = row["hub"]
+                if hub not in self.hubs:
+                    self.hubs[hub] = []
+
+                vehicle_id = int(row["vehicle_id"])
+                model = row["model"]
+                battery = int(row["battery"])
+                status = row["status"]
+
+                if row["vehicle_type"] == "Car":
+                    seats = int(row["seats"])
+                    vehicle = ElectricCar(vehicle_id, model, battery, seats)
+                else:
+                    speed = int(row["max_speed"])
+                    vehicle = ElectricScooter(vehicle_id, model, battery, speed)
+
+                vehicle.set_maintenance_status(status)
+                self.hubs[hub].append(vehicle)
+
+    def save_to_json(self):
+        data = {}
+
+        for hub, vehicles in self.hubs.items():
+            data[hub] = []
+
+            for v in vehicles:
+                vehicle_data = {
+                    "vehicle_id": v.vehicle_id,
+                    "model": v.model,
+                    "battery": v.get_battery_percentage(),
+                    "status": v.get_maintenance_status()
+                }
+
+                if isinstance(v, ElectricCar):
+                    vehicle_data["vehicle_type"] = "Car"
+                    vehicle_data["seats"] = v.seating_capacity
+
+                elif isinstance(v, ElectricScooter):
+                    vehicle_data["vehicle_type"] = "Scooter"
+                    vehicle_data["max_speed"] = v.max_speed_limit
+
+                data[hub].append(vehicle_data)
+
+        with open("fleet_data.json", "w") as file:
+            json.dump(data, file, indent=4)
+
+    def load_from_json(self):
+        if not os.path.exists("fleet_data.json"):
+            return
+
+        with open("fleet_data.json", "r") as file:
+            data = json.load(file)
+
+        for hub, vehicles in data.items():
+            self.hubs[hub] = []
+
+            for v in vehicles:
+                vehicle_id = v["vehicle_id"]
+                model = v["model"]
+                battery = v["battery"]
+                status = v["status"]
+
+                if v["vehicle_type"] == "Car":
+                    vehicle = ElectricCar(vehicle_id, model, battery, v["seats"])
+                else:
+                    vehicle = ElectricScooter(vehicle_id, model, battery, v["max_speed"])
+
+                vehicle.set_maintenance_status(status)
+                self.hubs[hub].append(vehicle)
 
     
     def main(self):
@@ -260,5 +365,9 @@ class EcoRideMain:
 
 if __name__ == "__main__":
     ecorideobj = EcoRideMain()
+    ecorideobj.load_from_csv()
+    ecorideobj.load_from_json()
     ecorideobj.display()
     ecorideobj.main()
+    ecorideobj.save_to_csv()
+    ecorideobj.save_to_json()

@@ -1,0 +1,29 @@
+{
+    "Bangalore": [
+        {
+            "vehicle_id": 1,
+            "model": "Tesla",
+            "battery": 90,
+            "status": "Available",
+            "vehicle_type": "Car",
+            "seats": 5
+        },
+        {
+            "vehicle_id": 2,
+            "model": "Ola",
+            "battery": 60,
+            "status": "Available",
+            "vehicle_type": "Scooter",
+            "max_speed": 60
+        },
+        {
+            "vehicle_id": 3,
+            "model": "BMW",
+            "battery": 85,
+            "status": "Available",
+            "vehicle_type": "Car",
+            "seats": 4
+        }
+    ],
+    "Hyderabad": []
+}

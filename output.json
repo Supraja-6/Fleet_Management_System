@@ -1,0 +1,54 @@
+{
+    "0-10": [],
+    "10-20": [],
+    "20-30": [],
+    "30-40": [
+        {
+            "hub": "Airport",
+            "vehicle_type": "Scooter",
+            "vehicle_id": "104",
+            "model": "honda",
+            "battery": "30",
+            "status": "Available",
+            "seats": "",
+            "max_speed": "60"
+        }
+    ],
+    "40-50": [],
+    "50-60": [],
+    "60-70": [],
+    "70-80": [],
+    "80-90": [
+        {
+            "hub": "Downtown",
+            "vehicle_type": "Car",
+            "vehicle_id": "101",
+            "model": "tesla",
+            "battery": "89",
+            "status": "Available",
+            "seats": "4",
+            "max_speed": ""
+        },
+        {
+            "hub": "Downtown",
+            "vehicle_type": "Car",
+            "vehicle_id": "102",
+            "model": "oola",
+            "battery": "80",
+            "status": "Available",
+            "seats": "4",
+            "max_speed": ""
+        },
+        {
+            "hub": "Airport",
+            "vehicle_type": "Car",
+            "vehicle_id": "103",
+            "model": "oola",
+            "battery": "80",
+            "status": "Available",
+            "seats": "4",
+            "max_speed": ""
+        }
+    ],
+    "90-100": []
+}

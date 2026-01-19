@@ -1,0 +1,4 @@
+hub,vehicle_type,vehicle_id,model,battery,status,seats,max_speed
+Bangalore,Car,1,Tesla,90,Available,5,
+Bangalore,Scooter,2,Ola,60,Available,,60
+Bangalore,Car,3,BMW,85,Available,4,
